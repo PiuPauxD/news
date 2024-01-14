@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news/Widgets/Search.dart';
 import 'package:news/Widgets/category_list.dart';
+import 'package:news/Widgets/recomendation_news.dart';
+import 'package:news/Widgets/trend_tile.dart';
 import 'package:news/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,6 +13,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List trendImage = [
+    'img/first.jpg',
+    'img/second.jpg',
+    'img/third.jpg',
+    'img/fourth.jpg',
+    'img/fivith.jpg',
+  ];
+
+  List trendSource = [
+    'Bloomberg',
+    'Playground',
+    'BBC News',
+    'RBK',
+    'ONT',
+  ];
+
+  List trendText = [
+    'DICE has annonced that the seventh season of Battlefield 2042 will include two new maps instead of the traditional one',
+    'Why is the world investing so much in semiconductors?',
+    'Bitcoin: Crypto fans can now invest in exchange-traded funds - but what are they?',
+    'New material found by AI could reduce lithium use in batteries',
+    'Animators say AI is not going to get you an Oscar',
+  ];
+
+  var index;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: ListView(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               //head
               const Padding(
@@ -118,6 +147,53 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               //TrendNews
+              SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(top: 15),
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return TrendTile(
+                      trendImage: trendImage[index],
+                      trendSource: trendSource[index],
+                      trendText: trendText[index],
+                    );
+                  },
+                ),
+              ),
+
+              //Recomendation News
+              const Padding(
+                padding: EdgeInsets.only(top: 15, left: 15),
+                child: Text(
+                  'Recomendation news',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: titleText,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: 140,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, int index) {
+                      return RecomendationNews(
+                        newsImage: trendImage[index],
+                        sourceNews: trendSource[index],
+                        infoNews: trendText[index],
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
