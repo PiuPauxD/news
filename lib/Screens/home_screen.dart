@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news/Screens/detail_screen.dart';
+import 'package:news/Screens/profile_screen.dart';
 import 'package:news/Widgets/Search.dart';
 import 'package:news/Widgets/category_list.dart';
 import 'package:news/Widgets/recomendation_news.dart';
@@ -88,7 +90,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const ProfileScreen(),
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.person_outlined,
                         color: text,
@@ -154,10 +164,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(top: 15),
                   itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
-                    return TrendTile(
-                      trendImage: trendImage[index],
-                      trendSource: trendSource[index],
-                      trendText: trendText[index],
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const DetailScreen(),
+                          ),
+                        );
+                      },
+                      child: TrendTile(
+                        trendImage: trendImage[index],
+                        trendSource: trendSource[index],
+                        trendText: trendText[index],
+                      ),
                     );
                   },
                 ),
@@ -177,20 +198,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: 140,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return RecomendationNews(
-                        newsImage: trendImage[index],
-                        sourceNews: trendSource[index],
-                        infoNews: trendText[index],
-                      );
-                    },
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const DetailScreen(),
+                      ),
+                    );
+                  },
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                    width: 140,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context, int index) {
+                        return RecomendationNews(
+                          newsImage: trendImage[index],
+                          sourceNews: trendSource[index],
+                          infoNews: trendText[index],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
