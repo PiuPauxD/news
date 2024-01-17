@@ -6,6 +6,8 @@ import 'package:news/Widgets/category_list.dart';
 import 'package:news/Widgets/recomendation_news.dart';
 import 'package:news/Widgets/trend_tile.dart';
 import 'package:news/constants.dart';
+import 'package:news/logic/queries.dart';
+import 'package:news/models/categories.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   var index;
+  late HttpQueries http = HttpQueries();
 
   @override
   Widget build(BuildContext context) {
@@ -142,17 +145,30 @@ class _HomeScreenState extends State<HomeScreen> {
               //categories
               Padding(
                 padding: const EdgeInsets.only(top: 15),
-                child: SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(right: 10, top: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return const CategoryList(categoryName: 'All');
-                    },
-                  ),
+                child: FutureBuilder(
+                  future: http.getCategory(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Categories> snapshot) {
+                    if (snapshot.hasData) {
+                      final categories = snapshot.data!.categories;
+                      return SizedBox(
+                        height: 40,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.only(right: 10, top: 10),
+                          itemBuilder: (_, i) {
+                            return CategoryList(categoryName: categories[i]);
+                          },
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
                 ),
               ),
 
