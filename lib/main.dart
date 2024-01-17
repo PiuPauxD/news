@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news/Screens/home_screen.dart';
+import 'package:news/Screens/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MyNews',
-      home: HomeScreen(),
+      home: WelcomeScreen(),
     );
   }
 }
