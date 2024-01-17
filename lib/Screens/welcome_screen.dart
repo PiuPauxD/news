@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                vertical: 10,
+                vertical: 5,
               ),
               child: Text(
                 title,
@@ -54,41 +54,52 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const HomeScreen(),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 300,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: titleText,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+              ),
+              child: Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: text,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const HomeScreen(),
                   ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Get Started',
-                        style: TextStyle(
-                          color: background,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_outlined,
-                        size: 16,
+                );
+              },
+              child: Container(
+                width: 300,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: titleText,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Get Started',
+                      style: TextStyle(
                         color: background,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ],
-                  ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_outlined,
+                      size: 16,
+                      color: background,
+                    ),
+                  ],
                 ),
               ),
             ),
