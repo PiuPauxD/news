@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: FutureBuilder(
-                  future: http.getCategory(),
+                  future: http.getLatest(),
                   builder: (BuildContext context,
                       AsyncSnapshot<Categories> snapshot) {
                     if (snapshot.hasData) {

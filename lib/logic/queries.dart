@@ -4,6 +4,7 @@ import 'package:news/models/categories.dart';
 class HttpQueries {
   final dio = Dio(
     BaseOptions(
+      queryParameters: {'lr': 'ru-RU'},
       baseUrl: 'https://google-news13.p.rapidapi.com',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 5),
@@ -14,12 +15,12 @@ class HttpQueries {
     ),
   );
 
-  Future<Categories> getCategory() async {
+  Future<Categories> getLatest() async {
     Response response;
     response = await dio.get(
       '/latest',
     );
-    final List<dynamic> result = response.data['result'];
+    final List<dynamic> result = response.data['results'];
     // ignore: unnecessary_null_comparison
     result.removeWhere((e) => e == null);
     return Categories(
