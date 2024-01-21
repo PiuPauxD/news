@@ -41,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   var index;
-  late HttpQueries http = HttpQueries();
+  HttpQueries http = HttpQueries();
+  Labels category = Labels.latest;
 
   @override
   Widget build(BuildContext context) {
@@ -143,35 +144,46 @@ class _HomeScreenState extends State<HomeScreen> {
 
               //categories
               Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: FutureBuilder(
-                    future: http.getCategories,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Categories> snapshot) {
-                      if (snapshot.hasData) {
-                        final categories = snapshot.hasData!.categories;
-                        return SizedBox(
+                padding: const EdgeInsets.only(top: 15, bottom: 15),
+                child: SizedBox(
+                  height: 40,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Labels.values.length,
+                    itemBuilder: (_, i) {
+                      return GestureDetector(
+                        onTap: () => getCategory(Labels.values[i]),
+                        child: Container(
                           height: 40,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: Categories.values.length,
-                            itemBuilder: (_, i) {
-                              return GestureDetector(
-                                onTap: () => http.getCategories,
-                                child: Container(
-                                  height: 40,
-                                  color: searchButton,
-                                  child: Center(
-                                    child: Text(Categories.values[i].label),
-                                  ),
-                                ),
-                              );
-                            },
+                          color: searchButton,
+                          child: Center(
+                            child: Text(Labels.values[i].label),
                           ),
-                        );
-                      }
-                    }),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
+
+              /*FutureBuilder(
+                  future: http.getCategories(category.route),
+                  builder: ((context, snapshot) {
+                    if (snapshot.data != null &&
+                        snapshot.connectionState == ConnectionState.done) {
+                      final news = snapshot.data!.categories;
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: news.length,
+                          itemBuilder: (context, i) {
+                            return ListTile(title: news[i].title,);
+                          });
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  })),*/
 
               //TrendNews
               SizedBox(
@@ -248,9 +260,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  void getCategory(Labels newCategory) {
+    setState(() {
+      category = newCategory;
+    });
+  }
 }
 
-enum Categories {
+enum Labels {
   latest('Latest', '/latest'),
   entartainment('Entertainment', '/entertainment'),
   world('World', '/world'),
@@ -260,7 +278,7 @@ enum Categories {
   science('Science', '/science'),
   technology('Technology', '/technology');
 
-  const Categories(this.label, this.route);
+  const Labels(this.label, this.route);
   final String label;
   final String route;
 }
