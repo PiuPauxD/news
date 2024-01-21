@@ -143,36 +143,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
               //categories
               Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: FutureBuilder(
-                      future:
-                          http.getCategories(Categories.values[index].route),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Categories> snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: Categories.values.length,
-                          itemBuilder: (_, i) {
-                            return GestureDetector(
-                              onTap: () => http.getCategories,
-                              child: Container(
-                                height: 40,
-                                color: searchButton,
-                                child: Center(
-                                  child: Text(Categories.values[i].label),
+                padding: const EdgeInsets.only(top: 15),
+                child: FutureBuilder(
+                    future: http.getCategories,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Categories> snapshot) {
+                      if (snapshot.hasData) {
+                        final categories = snapshot.hasData!.categories;
+                        return SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: Categories.values.length,
+                            itemBuilder: (_, i) {
+                              return GestureDetector(
+                                onTap: () => http.getCategories,
+                                child: Container(
+                                  height: 40,
+                                  color: searchButton,
+                                  child: Center(
+                                    child: Text(Categories.values[i].label),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }
+                              );
+                            },
+                          ),
+                        );
+                      }
+                    }),
               ),
-                  },),
-     ),
 
               //TrendNews
               SizedBox(
