@@ -15,10 +15,10 @@ class HttpQueries {
     ),
   );
 
-  Future<Categories> getLatest() async {
+  Future<Categories> getCategories(String path) async {
     Response response;
     response = await dio.get(
-      '/latest',
+      path,
     );
     final List<dynamic> result = response.data['results'];
     // ignore: unnecessary_null_comparison

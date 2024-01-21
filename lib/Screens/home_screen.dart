@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news/Screens/detail_screen.dart';
 import 'package:news/Screens/profile_screen.dart';
 import 'package:news/Widgets/Search.dart';
-import 'package:news/Widgets/category_list.dart';
 import 'package:news/Widgets/recomendation_news.dart';
 import 'package:news/Widgets/trend_tile.dart';
 import 'package:news/constants.dart';
@@ -144,33 +143,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
               //categories
               Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: FutureBuilder(
-                  future: http.getLatest(),
+                  padding: const EdgeInsets.only(top: 15),
+                  child: FutureBuilder(
+                      future:
+                          http.getCategories(Categories.values[index].route),
                   builder: (BuildContext context,
                       AsyncSnapshot<Categories> snapshot) {
                     if (snapshot.hasData) {
-                      final categories = snapshot.data!.categories;
                       return SizedBox(
                         height: 40,
                         child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 10,
                           scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.only(right: 10, top: 10),
+                          itemCount: Categories.values.length,
                           itemBuilder: (_, i) {
-                            return CategoryList(categoryName: categories[i]);
+                            return GestureDetector(
+                              onTap: () => http.getCategories,
+                              child: Container(
+                                height: 40,
+                                color: searchButton,
+                                child: Center(
+                                  child: Text(Categories.values[i].label),
+                                ),
+                              ),
+                            );
                           },
                         ),
                       );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
                     }
-                  },
-                ),
               ),
+                  },),
+     ),
 
               //TrendNews
               SizedBox(
@@ -247,4 +249,19 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+enum Categories {
+  latest('Latest', '/latest'),
+  entartainment('Entertainment', '/entertainment'),
+  world('World', '/world'),
+  business('Business', '/business'),
+  health('Health', '/health'),
+  sport('Sport', '/sport'),
+  science('Science', '/science'),
+  technology('Technology', '/technology');
+
+  const Categories(this.label, this.route);
+  final String label;
+  final String route;
 }
