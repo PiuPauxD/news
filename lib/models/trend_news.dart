@@ -2,16 +2,17 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'trend_news.g.dart';
 
+@JsonSerializable()
 class TrendNews {
   final String title;
-  final String snippet;
-  final String publisher;
-  final String timestamp;
-  final String newsUrl;
-  final String imageURL;
+  final String author;
+  final String source;
+  final String publishedAt;
+  final String url;
+  final String urlToImage;
 
-  TrendNews(this.title, this.snippet, this.publisher, this.timestamp,
-      this.newsUrl, this.imageURL);
+  TrendNews(this.title, this.author, this.source, this.publishedAt, this.url,
+      this.urlToImage);
 
   factory TrendNews.fromJson(Map<String, dynamic> json) =>
       _$TrendNewsFromJson(json);

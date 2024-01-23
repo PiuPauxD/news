@@ -6,7 +6,6 @@ import 'package:news/Widgets/recomendation_news.dart';
 import 'package:news/Widgets/trend_tile.dart';
 import 'package:news/constants.dart';
 import 'package:news/logic/queries.dart';
-import 'package:news/models/categories.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -72,10 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(),
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Today's News",
                           style: TextStyle(
                             fontSize: 16,
@@ -84,8 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          "Thuesday, Jan, 11, 2024",
-                          style: TextStyle(
+                          DateTime.now().toString(),
+                          style: const TextStyle(
                             fontSize: 14,
                             color: text,
                           ),
@@ -185,51 +184,62 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              /*FutureBuilder(
+              //TrendNews
+              SizedBox(
+                height: 250,
+                width: MediaQuery.of(context).size.width / 1.1,
+                child: FutureBuilder(
                   future: http.getCategories(category.route),
                   builder: ((context, snapshot) {
                     if (snapshot.data != null &&
                         snapshot.connectionState == ConnectionState.done) {
-                      final news = snapshot.data!.categories;
+                      final news = snapshot.data!;
                       return ListView.builder(
+                          scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemCount: news.length,
                           itemBuilder: (context, i) {
-                            return ListTile(title: news[i].title,);
+                            var date = DateTime.fromMicrosecondsSinceEpoch(
+                              int.parse(news[i].publishedAt),
+                            );
+                            return TrendTile(
+                              trendImage: news[i].urlToImage,
+                              trendSource: news[i].source,
+                              trendText: news[i].title,
+                              date: date.toString(),
+                            );
                           });
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
-                  })),*/
-
-              //TrendNews
-              SizedBox(
-                height: 250,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(top: 15),
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const DetailScreen(),
-                          ),
-                        );
-                      },
-                      child: TrendTile(
-                        trendImage: trendImage[index],
-                        trendSource: trendSource[index],
-                        trendText: trendText[index],
-                      ),
-                    );
-                  },
+                  }),
                 ),
+
+                // child: ListView.builder(
+                //   scrollDirection: Axis.horizontal,
+                //   padding: const EdgeInsets.only(top: 15),
+                //   itemCount: 5,
+                //   itemBuilder: (BuildContext context, int index) {
+                //     return GestureDetector(
+                //       onTap: () {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //             builder: (BuildContext context) =>
+                //                 const DetailScreen(),
+                //           ),
+                //         );
+                //       },
+                //       child: TrendTile(
+                //         trendImage: trendImage[index],
+                //         trendSource: trendSource[index],
+                //         trendText: trendText[index],
+                //       ),
+                //     );
+                //   },
+                // ),
               ),
 
               //Recomendation News

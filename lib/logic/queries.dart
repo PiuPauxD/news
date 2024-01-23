@@ -1,30 +1,31 @@
 import 'package:dio/dio.dart';
-import 'package:news/models/categories.dart';
+import 'package:news/models/trend_news.dart';
 
 class HttpQueries {
   final dio = Dio(
     BaseOptions(
       queryParameters: {'lr': 'ru-RU'},
-      baseUrl: 'https://google-news13.p.rapidapi.com',
+      baseUrl: 'https://newsapi.org/',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 5),
       headers: {
-        'X-RapidAPI-Key': 'e6926b3280mshc283c52bb356d98p1d6421jsn7a7b71559cba',
-        'X-RapidAPI-Host': 'google-news13.p.rapidapi.com',
+        'X-RapidAPI-Key': 'eca906133083436a9d49199aa164aca6',
       },
     ),
   );
 
-  Future<Categories> getCategories(String path) async {
+  Future<List<TrendNews>> getCategories(String path) async {
     Response response;
     response = await dio.get(
       path,
     );
     final List<dynamic> result = response.data['results'];
+    final List<TrendNews> _news = [];
     // ignore: unnecessary_null_comparison
     result.removeWhere((e) => e == null);
-    return Categories(
-      categories: List<String>.from(result),
-    );
+    for (var i in result) {
+      _news.add(TrendNews.fromJson(i));
+    }
+    return _news;
   }
 }
