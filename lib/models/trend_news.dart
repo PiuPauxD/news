@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'trend_news.g.dart';
+
 class TrendNews {
   final String title;
   final String snippet;
